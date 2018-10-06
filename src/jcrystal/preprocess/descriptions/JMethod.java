@@ -1,7 +1,7 @@
 package jcrystal.preprocess.descriptions;
 
 import java.io.Serializable;
-import java.lang.annotation.Annotation;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
@@ -16,6 +16,7 @@ public class JMethod implements JIAnnotable, JIHasModifiers, Serializable{
 	public boolean isVoid;
 	public List<JVariable> params = new ArrayList<>();
 	public List<JAnnotation> annotations= new ArrayList<>();
+	public String declaringClass;
 	
 	public JMethod(Method m) {
 		modifiers = m.getModifiers();
@@ -26,6 +27,18 @@ public class JMethod implements JIAnnotable, JIHasModifiers, Serializable{
 			params.add(new JVariable(p));
 		}
 		loadAnnotations(m.getAnnotations());
+		declaringClass = m.getDeclaringClass().getName();
+	}
+	public JMethod(Constructor<?> m) {
+		modifiers = m.getModifiers();
+		name = m.getName();
+		returnType = null;
+		isVoid = true;
+		for(Parameter p : m.getParameters()) {
+			params.add(new JVariable(p));
+		}
+		loadAnnotations(m.getAnnotations());
+		declaringClass = m.getDeclaringClass().getName();
 	}
 	public int getModifiers() {
 		return modifiers;

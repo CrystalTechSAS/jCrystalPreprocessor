@@ -20,6 +20,7 @@ public class JClass extends JType implements JIAnnotable, JIHasModifiers, Serial
 	public List<JType> interfaces = new ArrayList<>();
 	public List<JVariable> attributes = new ArrayList<>();
 	public List<JMethod> methods = new ArrayList<>();
+	public List<JMethod> constructors = new ArrayList<>();
 	public List<JAnnotation> annotations= new ArrayList<>();
 	public JEnum enumData;
 	public JType superClass;
@@ -44,6 +45,9 @@ public class JClass extends JType implements JIAnnotable, JIHasModifiers, Serial
 		Arrays.stream(clase.getDeclaredFields())/*.sorted((c1,c2)->c1.getName().compareTo(c2.getName()))*/.forEach(f->{
 			attributes.add(new JVariable(f));
 		});
+		Arrays.stream(clase.getConstructors()).forEach(c->{
+			constructors.add(new JMethod(c));
+		});
 		Arrays.stream(clase.getDeclaredMethods()).sorted((c1,c2)->c1.getName().compareTo(c2.getName())).forEach(m->{
 			if(!m.getName().startsWith("lambda$"))
 				methods.add(new JMethod(m));
@@ -56,6 +60,9 @@ public class JClass extends JType implements JIAnnotable, JIHasModifiers, Serial
 		loadAnnotations(clase.getAnnotations());
 		if(isEnum)
 			enumData = new JEnum(clase);
+	}
+	public boolean hasEmptyConstructor() {
+		return constructors.isEmpty() || constructors.stream().anyMatch(f->f.params.isEmpty());
 	}
 	public boolean isInner() {
 		return inner;

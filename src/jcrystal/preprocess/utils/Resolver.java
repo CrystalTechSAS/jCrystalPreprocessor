@@ -44,7 +44,7 @@ public class Resolver {
 	public static boolean subclassOf(JClass jclase, Class<?> clase) {
 		if(clase.getName().equals(jclase.name))
 			return true;
-		if(subclassOf(jclase.superClass, clase))
+		if(jclase.superClass != null && subclassOf(jclase.superClass, clase))
 			return true;
 		return jclase.interfaces.stream().anyMatch(f->subclassOf(f, clase));
 	}
