@@ -81,6 +81,21 @@ public class JVariable implements JIAnnotable, Serializable{
 	public String getName() {
 		return name;
 	}
+	public boolean isPublic() {
+		return Modifier.isPublic(modifiers);
+	}
+	public boolean isStatic() {
+		return Modifier.isStatic(modifiers);
+	}
+	public boolean isFinal() {
+		return Modifier.isFinal(modifiers);
+	}
+	public boolean isPrivate() {
+		return Modifier.isPrivate(modifiers);
+	}
+	public boolean isProtected() {
+		return Modifier.isProtected(modifiers);
+	}
 	public int getModifiers() {
 		return modifiers;
 	}

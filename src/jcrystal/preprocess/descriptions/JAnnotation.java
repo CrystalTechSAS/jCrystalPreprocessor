@@ -33,6 +33,8 @@ public class JAnnotation implements Serializable{
 							values.put(m.getName(), val);
 						else if(m.getReturnType().getComponentType() == Class.class)
 							values.put(m.getName(), Arrays.stream((Class<?>[])val).map(f->f.getName()).toArray(f->new String[f]));
+						else if(m.getReturnType().getComponentType().isEnum())
+							values.put(m.getName(), Arrays.stream((Object[])val).map(f->f.toString()).toArray(f->new String[f]));
 						else if(m.getReturnType().getComponentType().isAnnotation())
 							values.put(m.getName(), Arrays.stream((Annotation[])val).map(JAnnotation::new).toArray(f->new JAnnotation[f]));
 					}
