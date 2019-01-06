@@ -104,7 +104,7 @@ public class JType implements Comparable<JType>, JIAnnotable, Serializable{
 	public JClass resolve() {
 		JClass ret = Resolver.loadClass(name);
 		if(ret == null)
-			throw new NullPointerException();
+			throw new NullPointerException("Clase no encontrada: " + name);
 		return ret;
 	}
 	public final boolean isEnum() {
