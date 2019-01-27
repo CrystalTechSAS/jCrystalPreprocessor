@@ -1,14 +1,13 @@
 package jcrystal.preprocess.descriptions;
 
 import java.io.Serializable;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 public class JVariable implements JIAnnotable, Serializable{
 	private static final long serialVersionUID = 2251144499897925662L;
 	public JType type;
@@ -23,13 +22,13 @@ public class JVariable implements JIAnnotable, Serializable{
 	}
 	public JVariable(Parameter p) {
 		name = p.getName();
-		type = JType.load(p.getType(), p.getParameterizedType());
+		type = JTypeSolver.load(p.getType(), p.getParameterizedType());
 		modifiers = p.getModifiers();
 		loadAnnotations(p.getAnnotations());
 	}
 	public JVariable(Field f) {
 		name = f.getName();
-		type = JType.load(f.getType(), f.getGenericType());
+		type = JTypeSolver.load(f.getType(), f.getGenericType());
 		modifiers = f.getModifiers();
 		Arrays.stream(f.getAnnotations()).sorted((c1,c2)->c1.annotationType().getName().compareTo(c2.annotationType().getName())).forEach(a->{
 			try {

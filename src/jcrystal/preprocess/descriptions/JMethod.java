@@ -21,7 +21,7 @@ public class JMethod implements JIAnnotable, JIHasModifiers, Serializable{
 	public JMethod(Method m) {
 		modifiers = m.getModifiers();
 		name = m.getName();
-		returnType = JType.load(m.getReturnType(), m.getGenericReturnType());
+		returnType = JTypeSolver.load(m.getReturnType(), m.getGenericReturnType());
 		isVoid = m.getReturnType() == Void.TYPE;
 		for(Parameter p : m.getParameters()) {
 			params.add(new JVariable(p));

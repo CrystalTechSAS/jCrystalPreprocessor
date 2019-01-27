@@ -10,7 +10,6 @@ import java.util.List;
 
 import jcrystal.preprocess.convertions.AnnotationResolverHolder;
 import jcrystal.preprocess.main.ClassProcesor;
-import jcrystal.preprocess.utils.Resolver;
 
 public class JClass extends JType implements JIAnnotable, JIHasModifiers, Serializable{
 	private static final long serialVersionUID = 143568675432L;
@@ -24,7 +23,7 @@ public class JClass extends JType implements JIAnnotable, JIHasModifiers, Serial
 	public List<JAnnotation> annotations= new ArrayList<>();
 	public JEnum enumData;
 	public JType superClass;
-	public JType declaringClass;
+	public IJType declaringClass;
 	
 	public JClass(Class<?> clase){
 		super(clase);
@@ -35,12 +34,12 @@ public class JClass extends JType implements JIAnnotable, JIHasModifiers, Serial
 		isStatic = Modifier.isStatic(clase.getModifiers());
 		inner = clase.isMemberClass();
 		if(clase.getSuperclass() != null)
-			superClass = JType.load(clase.getSuperclass(), clase.getGenericSuperclass());
+			superClass = JTypeSolver.load(clase.getSuperclass(), clase.getGenericSuperclass());
 		if(clase.getDeclaringClass() != null)
-			declaringClass = JType.load(clase.getDeclaringClass(), null);
+			declaringClass = JTypeSolver.load(clase.getDeclaringClass(), null);
 		Class<?>[] ifaces = clase.getInterfaces();
 		for(int e = 0; e < ifaces.length; e++)
-			interfaces.add(JType.load(ifaces[e], clase.getGenericInterfaces()[e]));
+			interfaces.add(JTypeSolver.load(ifaces[e], clase.getGenericInterfaces()[e]));
 		packageName = clase.getPackage().getName();
 		Arrays.stream(clase.getDeclaredFields())/*.sorted((c1,c2)->c1.getName().compareTo(c2.getName()))*/.forEach(f->{
 			attributes.add(new JVariable(f));
@@ -82,7 +81,7 @@ public class JClass extends JType implements JIAnnotable, JIHasModifiers, Serial
 	public JType getSuperClass() {
 		return superClass;
 	}
-	public JType getDeclaringClass() {
+	public IJType getDeclaringClass() {
 		return declaringClass;
 	}
 	public boolean isAnnotationPresent(Class<? extends Annotation> clase) {

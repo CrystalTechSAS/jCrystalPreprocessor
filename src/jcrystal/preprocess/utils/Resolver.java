@@ -3,6 +3,7 @@ package jcrystal.preprocess.utils;
 import java.lang.annotation.Annotation;
 import java.util.TreeMap;
 
+import jcrystal.preprocess.descriptions.IJType;
 import jcrystal.preprocess.descriptions.JClass;
 import jcrystal.preprocess.descriptions.JPackage;
 import jcrystal.preprocess.descriptions.JType;
@@ -31,12 +32,12 @@ public class Resolver {
 		}
 		return false;
 	}
-	public static boolean subclassOf(JType jtype, JType clase) {
+	public static boolean subclassOf(JType jtype, IJType clase) {
 		if(CLASES.containsKey(jtype.name))
 			return subclassOf(CLASES.get(jtype.name), clase);
 		return false;
 	}
-	public static boolean subclassOf(JClass jtype, JType clase) {
+	public static boolean subclassOf(JClass jtype, IJType clase) {
 		if(jtype.superClass != null && jtype.superClass.is(clase))
 			return true;
 		return jtype.interfaces.stream().anyMatch(f->f.isSubclassOf(clase));
