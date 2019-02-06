@@ -178,9 +178,9 @@ public class JType implements JIAnnotable, Serializable, IJType{
 	@Override
 	public String toString() {
 		if(getInnerTypes().isEmpty())
-			return getName();
+			return getName()+":";
 		else if(isArray())
-			return getInnerTypes().get(0)+"[]";
+			return getInnerTypes().get(0)+":[]";
 		else
 			return getName()+":<" + getInnerTypes().stream().map(f->f.toString()).collect(Collectors.joining(", ")) + ">";
 	}
