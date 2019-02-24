@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import jcrystal.preprocess.descriptions.JClass;
 import jcrystal.preprocess.descriptions.JPackage;
+import jcrystal.preprocess.descriptions.JType;
 import jcrystal.preprocess.descriptions.JTypeSolver;
 import jcrystal.preprocess.utils.Resolver;
 import jcrystal.reflection.annotations.Post;
@@ -15,9 +16,6 @@ import jcrystal.reflection.annotations.Post;
 public class ClassProcesor {
 
 	public static JClass loadClassInfo(Class<?> clase) {
-		if(clase.isAnnotationPresent(Post.class))
-			EXTRA_CLASES.add(clase);
-		
 		try {
 			JClass ret = new JClass(clase);
 			Resolver.CLASES.put(ret.name, ret);
@@ -37,15 +35,24 @@ public class ClassProcesor {
 	}
 	
 	
-	public static Set<Class<?>> EXTRA_CLASES = new TreeSet<>((c1,c2)->c1.getName().compareTo(c2.getName()));
 	public static void loadExtras() {
-		while(!EXTRA_CLASES.isEmpty()) {
-			List<Class<?>> clases = EXTRA_CLASES.stream().filter(f->!Resolver.CLASES.containsKey(f.getName())).collect(Collectors.toList());
-			EXTRA_CLASES.clear();
-			clases.forEach(f->{
-				System.out.println("Load extra " +f);
-				ClassProcesor.loadClassInfo(f);
-			});
+		Set<String> procesados = new TreeSet<>();
+		while(true){
+			List<JType> tiposPost = JTypeSolver.SIMPLE_TYPES.values().stream().filter(f->
+				!procesados.contains(f.getName()) && f.isAnnotationPresent(Post.class) 
+			).collect(Collectors.toList());
+			if(tiposPost.isEmpty())
+				break;
+			for(JType t : tiposPost) {
+				try {
+					System.out.println("    Load extra "  + t.getName());
+					procesados.add(t.getName());
+					ClassProcesor.loadClassInfo(Class.forName(t.getName()));
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				}
+			}
+			System.out.println();
 		}
 	}
 }
