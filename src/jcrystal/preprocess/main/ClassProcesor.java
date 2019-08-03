@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
+import jcrystal.preprocess.descriptions.IJType;
 import jcrystal.preprocess.descriptions.JClass;
 import jcrystal.preprocess.descriptions.JPackage;
 import jcrystal.preprocess.descriptions.JType;
@@ -38,12 +39,12 @@ public class ClassProcesor {
 	public static void loadExtras() {
 		Set<String> procesados = new TreeSet<>();
 		while(true){
-			List<JType> tiposPost = JTypeSolver.SIMPLE_TYPES.values().stream().filter(f->
+			List<IJType> tiposPost = JTypeSolver.SIMPLE_TYPES.values().stream().filter(f->
 				!procesados.contains(f.getName()) && f.isAnnotationPresent(Post.class) 
 			).collect(Collectors.toList());
 			if(tiposPost.isEmpty())
 				break;
-			for(JType t : tiposPost) {
+			for(IJType t : tiposPost) {
 				try {
 					System.out.println("    Load extra "  + t.getName());
 					procesados.add(t.getName());
