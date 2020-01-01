@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import jcrystal.clients.ClientType;
-import jcrystal.clients.ResourceType;
+import jcrystal.configs.clients.ClientType;
+import jcrystal.configs.clients.ResourceType;
 
 public class OutputFile implements Serializable{
 	private static final long serialVersionUID = -2642574448549194694L;
