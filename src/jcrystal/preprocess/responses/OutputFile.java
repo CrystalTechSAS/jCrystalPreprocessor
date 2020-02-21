@@ -17,11 +17,12 @@ public class OutputFile implements Serializable{
 	
 	public String destPath;
 	public List<String> content;
+
 	public OutputFile(String clientId, ClientType type, String destPath, List<String> content) {
 		this.clientId = clientId;
 		this.destPath = destPath;
 		this.type = type;
-		this.content = new ArrayList<>(content);
+		this.content = content;
 	}
 	public OutputFile(String clientId, ClientType type, String destPath, String content) {
 		this.clientId = clientId;
