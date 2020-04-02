@@ -18,15 +18,15 @@
   </build>
   <dependencies>
   	<dependency>
-	    <groupId>com.github.gasotelo</groupId>
+	    <groupId>com.github.CrystalTechSAS</groupId>
 	    <artifactId>jCrystalUtils</artifactId>
-	    <version>1.1.0</version>
+	    <version>1.2.0-SNAPSHOT</version>
 	    <scope>compile</scope>
 	</dependency>
 	<dependency>
 	    <groupId>com.github.CrystalTechSAS</groupId>
 	    <artifactId>jCrystalTypeSystem</artifactId>
-	    <version>1.1.0</version>
+	    <version>1.2.0-SNAPSHOT</version>
 	</dependency>
   </dependencies>
   <repositories>
